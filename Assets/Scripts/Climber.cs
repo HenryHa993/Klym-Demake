@@ -20,6 +20,11 @@ public class Climber : MonoBehaviour
 
     private bool _isClimbing = false;
 
+    public bool IsClimbing
+    {
+        get { return _isClimbing; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -59,6 +64,7 @@ public class Climber : MonoBehaviour
         Move into separate function*/
         _playerInput.actions.FindAction("Move").Disable();
         _playerInput.actions.FindAction("Climb").Disable();
+        
         _playerInput.actions.FindActionMap("Climbing").Enable();
 
         /*Align player to wall here*/
@@ -81,6 +87,7 @@ public class Climber : MonoBehaviour
         _isClimbing = false;
 
         _playerInput.actions.FindAction("Move").Enable();
+        _playerInput.actions.FindAction("Climb").Enable();
         _playerInput.actions.FindActionMap("Climbing").Disable();
 
         _thirdPersonController.SetGravityEnabled(true);
@@ -93,17 +100,21 @@ public class Climber : MonoBehaviour
 
     public void ClimbInput(bool climb)
     {
+        if (!ClimbingTriggerCollider.IsClimbableDetected)
+        {
+            return;
+        }
         EnableClimbing();
     }
 
     /*Occurs when climbing enabled and Input Actions called.*/
-    public void OnDetectLedge(InputValue value)
+    public void OnDetectClimbable(InputValue value)
     {
-        DetectLedgeInput(value.Get<Vector2>());
+        DetectClimbableInput(value.Get<Vector2>());
     }
 
     /*Moves the collider around, which is used to detect climbables.*/
-    public void DetectLedgeInput(Vector2 newClimbDirection)
+    public void DetectClimbableInput(Vector2 newClimbDirection)
     {
         //ClimbingTriggerCollider.transform.localPosition = Vector3.Lerp(ClimbingTriggerCollider.transform.localPosition, newClimbDirection.normalized,Time.deltaTime * 100f);// This should really be applied to the collider
         ClimbingTriggerCollider.transform.localPosition = newClimbDirection.normalized;// This should really be applied to the collider
@@ -123,6 +134,16 @@ public class Climber : MonoBehaviour
             _targetPosition = ClimbingTriggerCollider.transform.position;
             _targetPosition.y = _targetPosition.y - 1.2f; // Magic number
         }
+    }
+
+    public void OnLetGo(InputValue value)
+    {
+        LetGoInput(value.isPressed);
+    }
+
+    public void LetGoInput(bool letGo)
+    {
+        DisableClimbing();
     }
 
     /*Magic must be used in order to directly change the player's transform.*/

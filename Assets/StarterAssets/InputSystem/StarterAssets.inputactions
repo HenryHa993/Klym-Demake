@@ -231,7 +231,7 @@
                 {
                     "name": "",
                     "id": "154f599d-5e33-48fa-9f41-ff4a39c8b70e",
-                    "path": "<Keyboard>/p",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
@@ -246,7 +246,7 @@
             "id": "de949bbc-5ee4-43cf-9d94-5551da072aab",
             "actions": [
                 {
-                    "name": "DetectLedge",
+                    "name": "DetectClimbable",
                     "type": "Value",
                     "id": "af066fef-35be-4427-91f5-0fe816b87b8e",
                     "expectedControlType": "Vector2",
@@ -262,6 +262,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "LetGo",
+                    "type": "Button",
+                    "id": "dffefacc-3bce-46b4-8d05-31c42b0c6304",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ClimbJump",
+                    "type": "Button",
+                    "id": "7e422524-d438-4f42-a53c-cc5b60a41ae1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -272,7 +290,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "DetectLedge",
+                    "action": "DetectClimbable",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -283,7 +301,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "DetectLedge",
+                    "action": "DetectClimbable",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -294,7 +312,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "DetectLedge",
+                    "action": "DetectClimbable",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -305,7 +323,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "DetectLedge",
+                    "action": "DetectClimbable",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -316,18 +334,51 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "DetectLedge",
+                    "action": "DetectClimbable",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "",
                     "id": "1aed2871-373b-4c2a-bc78-210de4a1fb3d",
-                    "path": "<Keyboard>/p",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
                     "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ed1cced-da0c-4735-87d4-d79d2652e5f1",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "LetGo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c23ca82-9315-4eec-a0ef-d53ee40712ad",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ClimbJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34e4a66c-0188-431c-a116-41ac3a4f5bc8",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ClimbJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

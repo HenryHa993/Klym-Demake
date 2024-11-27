@@ -106,6 +106,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
+        private Climber _climber;
 
         private const float _threshold = 0.01f;
 
@@ -140,6 +141,9 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
+
+            _climber = GetComponent <Climber>();
+            
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -282,8 +286,13 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
-            if (Grounded)
+            if (Grounded || _climber.IsClimbing)
             {
+                /*if (_climber.IsClimbing)
+                {
+                    _jumpTimeoutDelta = -2.0f;
+                }*/
+                
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
 
@@ -303,6 +312,8 @@ namespace StarterAssets
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
+                    _climber.DisableClimbing();
+                    
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -319,7 +330,7 @@ namespace StarterAssets
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
             }
-            else
+            else // not grounded
             {
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
