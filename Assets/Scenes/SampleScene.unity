@@ -1169,6 +1169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClimbingTriggerCollider: {fileID: 1187124706}
   IsClimbing: 0
+  TransitionSpeed: 3
+  TargetOffset: 1.2
 --- !u!114 &1305463536
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,8 +10,10 @@ using UnityEngine.UIElements;
  * the player latches onto a given ledge.*/
 public class ClimberController : MonoBehaviour
 {
-    public ClimbingTriggerBox ClimbingTriggerCollider;
+    public ClimberTrigger ClimbingTriggerCollider;
     public bool IsClimbing;
+    public float TransitionSpeed = 3.0f;
+    public float TargetOffset = 1.2f;
 
     private ThirdPersonController _thirdPersonController; // For gravity/vertical velocity, player rotation
     private CharacterController _characterController; // For player transform (AND NOT ROTATION)
@@ -35,7 +37,7 @@ public class ClimberController : MonoBehaviour
 
         if (transform.position != _targetPosition)
         {
-            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * 3.0f); // magic numbers
+            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * TransitionSpeed); // magic numbers
         }
         
     }
@@ -60,7 +62,7 @@ public class ClimberController : MonoBehaviour
 
         // Set player target position
         _targetPosition = ClimbingTriggerCollider.transform.position;
-        _targetPosition.y = _targetPosition.y - 1.2f; // Magic number
+        _targetPosition.y -= TargetOffset; // Magic number
 
         // Disable gravity on controller
         _thirdPersonController.SetGravityEnabled(false);
@@ -87,7 +89,7 @@ public class ClimberController : MonoBehaviour
         if (ClimbingTriggerCollider.IsClimbableDetected)
         {
             _targetPosition = ClimbingTriggerCollider.transform.position;
-            _targetPosition.y = _targetPosition.y - 1.2f; // Magic number
+            _targetPosition.y -= TargetOffset; // Magic number
         }
     }
     

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /*Detect climbable surfaces. Attached to a trigger on the player. Stores current climbable.*/
-public class ClimbingTriggerBox : MonoBehaviour
+public class ClimberTrigger : MonoBehaviour
 {
     public bool IsClimbableDetected;
     public GameObject DetectedClimbable;
