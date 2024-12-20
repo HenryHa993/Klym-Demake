@@ -106,7 +106,7 @@ namespace StarterAssets
         private CharacterController _controller;
         private StarterAssetsInputs _input;
         private GameObject _mainCamera;
-        private Climber _climber;
+        private ClimberController _climber;
 
         private const float _threshold = 0.01f;
 
@@ -142,7 +142,7 @@ namespace StarterAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 
-            _climber = GetComponent <Climber>();
+            _climber = GetComponent <ClimberController>();
             
 #if ENABLE_INPUT_SYSTEM 
             _playerInput = GetComponent<PlayerInput>();

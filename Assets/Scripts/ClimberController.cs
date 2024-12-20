@@ -5,27 +5,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 
 /*Climber script. Implements the details of how
  * the player latches onto a given ledge.*/
-public class Climber : MonoBehaviour
+public class ClimberController : MonoBehaviour
 {
     public ClimbingTriggerBox ClimbingTriggerCollider;
+    public bool IsClimbing;
 
     private ThirdPersonController _thirdPersonController; // For gravity/vertical velocity, player rotation
     private CharacterController _characterController; // For player transform (AND NOT ROTATION)
     private PlayerInput _playerInput; // Input management
     private Vector3 _targetPosition;
-
-    private bool _isClimbing = false;
-
-    public bool IsClimbing
-    {
-        get { return _isClimbing; }
-    }
-
-    // Start is called before the first frame update
+    
     void Start()
     {
         _thirdPersonController = GetComponent<ThirdPersonController>();
@@ -33,10 +25,10 @@ public class Climber : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
     }
 
-    /*Handles lerping between holds to make it seem smoother.*/
+    /*Lerps between the player's current and target position.*/
     private void FixedUpdate()
     {
-        if (!_isClimbing)
+        if (!IsClimbing)
         {
             return;
         }
@@ -48,43 +40,40 @@ public class Climber : MonoBehaviour
         
     }
 
-    /*Activate Action Map for Climbing,
-     Setup initial climbing position.
-    I opted to seperate the logic of enabling and disabling for readability.*/
+    /*Set up climbing. Enable appropriate action mappings. Position player on hold.*/
     public void EnableClimbing()
     {
-        if(_isClimbing)
+        if(IsClimbing || !ClimbingTriggerCollider.IsClimbableDetected)
         {
             return;
         }
 
-        _isClimbing = true;
-
-        /*Edit Input Maps
-        Move into separate function*/
+        IsClimbing = true;
+        
         _playerInput.actions.FindAction("Move").Disable();
         _playerInput.actions.FindAction("Climb").Disable();
         
         _playerInput.actions.FindActionMap("Climbing").Enable();
 
-        /*Align player to wall here*/
+        // Align player with wall
         _thirdPersonController.transform.rotation = Quaternion.LookRotation(ClimbingTriggerCollider.DetectedClimbable.transform.forward);
 
-        /*Refine the position we warp to*/
+        // Set player target position
         _targetPosition = ClimbingTriggerCollider.transform.position;
         _targetPosition.y = _targetPosition.y - 1.2f; // Magic number
 
+        // Disable gravity on controller
         _thirdPersonController.SetGravityEnabled(false);
     }
 
     public void DisableClimbing()
     {
-        if (!_isClimbing)
+        if (!IsClimbing)
         {
             return;
         }
         
-        _isClimbing = false;
+        IsClimbing = false;
 
         _playerInput.actions.FindAction("Move").Enable();
         _playerInput.actions.FindAction("Climb").Enable();
@@ -93,41 +82,7 @@ public class Climber : MonoBehaviour
         _thirdPersonController.SetGravityEnabled(true);
     }
 
-    public void OnClimb(InputValue value)
-    {
-        ClimbInput(value.isPressed);
-    }
-
-    public void ClimbInput(bool climb)
-    {
-        if (!ClimbingTriggerCollider.IsClimbableDetected)
-        {
-            return;
-        }
-        EnableClimbing();
-    }
-
-    /*Occurs when climbing enabled and Input Actions called.*/
-    public void OnDetectClimbable(InputValue value)
-    {
-        DetectClimbableInput(value.Get<Vector2>());
-    }
-
-    /*Moves the collider around, which is used to detect climbables.*/
-    public void DetectClimbableInput(Vector2 newClimbDirection)
-    {
-        //ClimbingTriggerCollider.transform.localPosition = Vector3.Lerp(ClimbingTriggerCollider.transform.localPosition, newClimbDirection.normalized,Time.deltaTime * 100f);// This should really be applied to the collider
-        ClimbingTriggerCollider.transform.localPosition = newClimbDirection.normalized;// This should really be applied to the collider
-    }
-
-    /*Grab input.*/
-    public void OnGrab(InputValue value)
-    {
-        GrabInput(value.isPressed);
-    }
-
-    /*Allows players to choose their point of movement.*/
-    public void GrabInput(bool grab)
+    public void GrabClimbable()
     {
         if (ClimbingTriggerCollider.IsClimbableDetected)
         {
@@ -135,24 +90,12 @@ public class Climber : MonoBehaviour
             _targetPosition.y = _targetPosition.y - 1.2f; // Magic number
         }
     }
-
-    public void OnLetGo(InputValue value)
-    {
-        LetGoInput(value.isPressed);
-    }
-
-    public void LetGoInput(bool letGo)
-    {
-        DisableClimbing();
-    }
-
+    
     /*Magic must be used in order to directly change the player's transform.*/
     private void Warp(Vector3 position)
     {
         _characterController.enabled = false;
-        _characterController.transform.position = position;// Vector3.Lerp(_characterController.transform.position, position, 0.1f);
+        _characterController.transform.position = position;
         _characterController.enabled = true;
     }
-
-
 }
