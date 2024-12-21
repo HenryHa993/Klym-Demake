@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
+// Todo: Refactor this to not use climber controller at all
 public class ClimberInputs : MonoBehaviour
 {
-    private ClimberController _climberController;
-
-    private void Start()
-    {
-        _climberController = GetComponent<ClimberController>();
-    }
+    public bool EnableClimb;
+    public Vector2 DetectDirection;
+    public bool Grab;
+    public bool LetGo;
 
     /*Player input mappings. Might be better to insert into the player controller.*/
     public void OnClimb(InputValue value)
@@ -21,7 +20,7 @@ public class ClimberInputs : MonoBehaviour
 
     public void ClimbInput(bool climb)
     {
-        _climberController.EnableClimbing();
+        EnableClimb = climb;
     }
 
     /*Two functions, also input mapping functions. Used to try detect climbable using trigger.*/
@@ -32,8 +31,7 @@ public class ClimberInputs : MonoBehaviour
 
     public void DetectClimbableInput(Vector2 newClimbDirection)
     {
-        //ClimbingTriggerCollider.transform.localPosition = Vector3.Lerp(ClimbingTriggerCollider.transform.localPosition, newClimbDirection.normalized,Time.deltaTime * 100f);// This should really be applied to the collider
-        _climberController.ClimbingTriggerCollider.transform.localPosition = newClimbDirection.normalized;// This should really be applied to the collider
+        DetectDirection = newClimbDirection;
     }
 
     /*Grabbing inputs to choose to move to another trigger, if there is one.*/
@@ -44,7 +42,7 @@ public class ClimberInputs : MonoBehaviour
 
     public void GrabInput(bool grab)
     {
-        _climberController.GrabClimbable();
+        Grab = grab;
     }
 
     /*Input action functions. Allows the player to let go.*/
@@ -55,7 +53,7 @@ public class ClimberInputs : MonoBehaviour
 
     public void LetGoInput(bool letGo)
     {
-        _climberController.DisableClimbing();
+        LetGo = letGo;
     }
 
 }

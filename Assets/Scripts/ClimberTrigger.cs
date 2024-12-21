@@ -8,17 +8,24 @@ using UnityEngine.Events;
 public class ClimberTrigger : MonoBehaviour
 {
     public bool IsClimbableDetected;
+    public bool IsSameLedge;
     public GameObject DetectedClimbable;
+    public GameObject PrevDetectedClimbable;
+    public LayerMask CollisionLayerMask;
 
     /*The player will not move if the trigger exits a climbable.*/
     private void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Climbable"))
+        {
+            return;
+        }
+        
         IsClimbableDetected = false;
         DetectedClimbable = null;
     }
 
-    /*Detect and register climbable surface.*/
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer != LayerMask.NameToLayer("Climbable"))
         {
@@ -26,6 +33,25 @@ public class ClimberTrigger : MonoBehaviour
         }
 
         IsClimbableDetected = true;
+        PrevDetectedClimbable = DetectedClimbable;
         DetectedClimbable = other.gameObject;
+        IsSameLedge = (PrevDetectedClimbable == DetectedClimbable);
+        
     }
+
+    /*Detect and register climbable surface.*/
+    /*private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer != LayerMask.NameToLayer("Climbable"))
+        {
+            return;
+        }
+
+        IsClimbableDetected = true;
+        PrevDetectedClimbable = DetectedClimbable;
+        DetectedClimbable = other.gameObject;
+        IsSameLedge = (PrevDetectedClimbable == DetectedClimbable);
+
+        //(PrevDetectedClimbable, DetectedClimbable) = (DetectedClimbable, other.gameObject);
+    }*/
 }

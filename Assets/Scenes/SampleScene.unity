@@ -1144,7 +1144,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsClimbableDetected: 0
+  IsSameLedge: 0
   DetectedClimbable: {fileID: 0}
+  PrevDetectedClimbable: {fileID: 0}
+  CollisionLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1305463514 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6341998657737914581, guid: 212907312655a4443a025a304442c17c, type: 3}
@@ -1183,6 +1188,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa38b265e2a3b6e43900d7f950137f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnableClimb: 0
+  DetectDirection: {x: 0, y: 0}
+  Grab: 0
+  LetGo: 0
 --- !u!1001 &1419311328
 PrefabInstance:
   m_ObjectHideFlags: 0

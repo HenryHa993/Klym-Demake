@@ -1,3 +1,4 @@
+using System;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ public class ClimberController : MonoBehaviour
     private ThirdPersonController _thirdPersonController; // For gravity/vertical velocity, player rotation
     private CharacterController _characterController; // For player transform (AND NOT ROTATION)
     private PlayerInput _playerInput; // Input management
+    private ClimberInputs _climberInputs;
+    
     private Vector3 _targetPosition;
     
     void Start()
@@ -25,6 +28,26 @@ public class ClimberController : MonoBehaviour
         _thirdPersonController = GetComponent<ThirdPersonController>();
         _characterController = GetComponent<CharacterController>();
         _playerInput = GetComponent<PlayerInput>();
+        _climberInputs = GetComponent<ClimberInputs>();
+    }
+
+    private void Update()
+    {
+
+        if (_climberInputs.EnableClimb)
+        {
+            SetClimbingEnabled(true);
+            _climberInputs.EnableClimb = false;
+        }
+
+        if (_climberInputs.LetGo)
+        {
+            SetClimbingEnabled(false);
+            _climberInputs.LetGo = false;
+        }
+        
+        GrabClimbable();
+        
     }
 
     /*Lerps between the player's current and target position.*/
@@ -35,69 +58,62 @@ public class ClimberController : MonoBehaviour
             return;
         }
 
+        // Lerping between current position and target
         if (transform.position != _targetPosition)
         {
             transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * TransitionSpeed); // magic numbers
         }
         
+        // Move around ledge detector
+        Vector3 newLocalPosition = ClimbingTriggerCollider.transform.localPosition + _climberInputs.DetectDirection.ConvertTo<Vector3>();
+        ClimbingTriggerCollider.transform.localPosition = Vector3.Lerp(ClimbingTriggerCollider.transform.localPosition, newLocalPosition, Time.deltaTime);
     }
 
-    /*Set up climbing. Enable appropriate action mappings. Position player on hold.*/
-    public void EnableClimbing()
+    public void SetClimbingEnabled(bool enabled)
     {
-        if(IsClimbing || !ClimbingTriggerCollider.IsClimbableDetected)
+        if (enabled)
         {
-            return;
+            if(!ClimbingTriggerCollider.IsClimbableDetected)
+            {
+                return;
+            }
+            
+            _playerInput.actions.FindAction("Move").Disable();
+            _playerInput.actions.FindAction("Climb").Disable();
+        
+            _playerInput.actions.FindActionMap("Climbing").Enable();
+
+            // Align player with wall
+            _thirdPersonController.transform.rotation = Quaternion.LookRotation(ClimbingTriggerCollider.DetectedClimbable.transform.forward);
+
+            // Set player target position
+            _targetPosition = ClimbingTriggerCollider.transform.position;
+            _targetPosition.y -= TargetOffset; // Magic number
         }
-
-        IsClimbing = true;
-        
-        _playerInput.actions.FindAction("Move").Disable();
-        _playerInput.actions.FindAction("Climb").Disable();
-        
-        _playerInput.actions.FindActionMap("Climbing").Enable();
-
-        // Align player with wall
-        _thirdPersonController.transform.rotation = Quaternion.LookRotation(ClimbingTriggerCollider.DetectedClimbable.transform.forward);
-
-        // Set player target position
-        _targetPosition = ClimbingTriggerCollider.transform.position;
-        _targetPosition.y -= TargetOffset; // Magic number
-
-        // Disable gravity on controller
-        _thirdPersonController.SetGravityEnabled(false);
-    }
-
-    public void DisableClimbing()
-    {
-        if (!IsClimbing)
+        else
         {
-            return;
+            _playerInput.actions.FindAction("Move").Enable();
+            _playerInput.actions.FindAction("Climb").Enable();
+            _playerInput.actions.FindActionMap("Climbing").Disable();
         }
         
-        IsClimbing = false;
+        IsClimbing = enabled;
+        _thirdPersonController.SetGravityEnabled(!enabled);
 
-        _playerInput.actions.FindAction("Move").Enable();
-        _playerInput.actions.FindAction("Climb").Enable();
-        _playerInput.actions.FindActionMap("Climbing").Disable();
-
-        _thirdPersonController.SetGravityEnabled(true);
+        ClimbingTriggerCollider.transform.localPosition = Vector3.zero;
     }
 
     public void GrabClimbable()
     {
-        if (ClimbingTriggerCollider.IsClimbableDetected)
+        if (!_climberInputs.Grab || !ClimbingTriggerCollider.IsClimbableDetected)
         {
-            _targetPosition = ClimbingTriggerCollider.transform.position;
-            _targetPosition.y -= TargetOffset; // Magic number
+            return;
         }
-    }
-    
-    /*Magic must be used in order to directly change the player's transform.*/
-    private void Warp(Vector3 position)
-    {
-        _characterController.enabled = false;
-        _characterController.transform.position = position;
-        _characterController.enabled = true;
+
+        _targetPosition = ClimbingTriggerCollider.transform.position;
+        _targetPosition.y -= TargetOffset;
+        ClimbingTriggerCollider.transform.localPosition = Vector3.zero;
+        
+        _climberInputs.Grab = false;
     }
 }

@@ -312,7 +312,8 @@ namespace StarterAssets
                 // Jump
                 if (_input.jump && _jumpTimeoutDelta <= 0.0f)
                 {
-                    _climber.DisableClimbing();
+                    // I want jump to cancel climbing. I don't really like that the character controllers are separated, but I wanted a clear separation of my work and templated work.
+                    _climber.SetClimbingEnabled(false);
                     
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
