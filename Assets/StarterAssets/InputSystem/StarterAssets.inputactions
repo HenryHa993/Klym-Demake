@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Climb",
+                    "name": "ClimbEnabled",
                     "type": "Button",
                     "id": "251fbc05-7711-4d94-a54e-5f2da1b06c69",
                     "expectedControlType": "",
@@ -235,7 +235,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "Climb",
+                    "action": "ClimbEnabled",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -255,16 +255,25 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Grab",
+                    "name": "GrabEnable",
                     "type": "Button",
                     "id": "578d5cde-ec22-404c-a8e1-78950cc4d522",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LetGo",
+                    "name": "GrabDisable",
+                    "type": "Button",
+                    "id": "bb570908-e423-4256-88ae-d62ce6b2556f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ClimbDisabled",
                     "type": "Button",
                     "id": "dffefacc-3bce-46b4-8d05-31c42b0c6304",
                     "expectedControlType": "",
@@ -280,6 +289,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Reach",
+                    "type": "Value",
+                    "id": "e3f99075-9ee3-48c4-b6f3-4fc547dad8c5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -345,7 +363,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "Grab",
+                    "action": "GrabEnable",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05f00282-07ed-4757-be60-256702e2fd93",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "GrabDisable",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -356,7 +385,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";KeyboardMouse",
-                    "action": "LetGo",
+                    "action": "ClimbDisabled",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -379,6 +408,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "ClimbJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be69ee05-4ab5-4740-8d41-05c4249d80a5",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "Reach",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
