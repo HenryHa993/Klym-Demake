@@ -59,6 +59,7 @@ public class ClimberController : MonoBehaviour
         }
 
         // Lerping between current position and target
+        // TODO: use a range instead of !=
         if (transform.position != _targetPosition)
         {
             transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * TransitionSpeed); // magic numbers
