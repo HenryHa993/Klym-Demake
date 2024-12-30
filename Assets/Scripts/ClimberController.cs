@@ -15,9 +15,11 @@ using Vector3 = UnityEngine.Vector3;
  * the player latches onto a given ledge.*/
 public class ClimberController : MonoBehaviour
 {
-    public ClimberTrigger ClimbingTriggerCollider;
+    public ClimberTrigger ClimbTrigger;
+    public ClimberTrigger GrabTrigger;
     
     public bool IsClimbing;
+    public bool IsMoving;
     
     public float TransitionSpeed = 3.0f;
     public float TargetOffset = 1.2f;
@@ -63,7 +65,7 @@ public class ClimberController : MonoBehaviour
         if (_climberInputs.GrabDisabled)
         {
             SetGrabModeEnabled(false);
-            _climberInputs.GrabDisabled = false;
+            _climberInputs.GrabDisabled = false; // Delay this
         }
         
         MoveReach();
@@ -77,18 +79,21 @@ public class ClimberController : MonoBehaviour
             return;
         }
         
-        // Move around ledge detector
-        if (_climberInputs.Direction != Vector2.zero)
+        // Move around ledge detector but if grab is disabled in this frame, do not 
+        if (_climberInputs.Direction != Vector2.zero && !IsMoving)
         {
-            ClimbingTriggerCollider.transform.localPosition = _climberInputs.Direction * SoftReachRange;
-            GrabClimbable();
+            ClimbTrigger.transform.localPosition = _climberInputs.Direction * SoftReachRange;
+            GrabClimbable(ClimbTrigger);
         }
 
         // Lerping between current position and target
-        // TODO: use a range instead of !=
         if ((transform.position - _targetPosition).magnitude > 0.01f)
         {
             transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * TransitionSpeed); // magic numbers
+        }
+        else
+        {
+            IsMoving = false;
         }
     }
 
@@ -96,7 +101,7 @@ public class ClimberController : MonoBehaviour
     {
         if (enabled)
         {
-            if(!ClimbingTriggerCollider.IsClimbableDetected)
+            if(!ClimbTrigger.IsClimbableDetected)
             {
                 return;
             }
@@ -108,35 +113,40 @@ public class ClimberController : MonoBehaviour
             _playerInput.actions.FindAction("Reach").Disable();
 
             // Align player with wall
-            _thirdPersonController.transform.rotation = Quaternion.LookRotation(ClimbingTriggerCollider.DetectedClimbable.transform.forward);
+            _thirdPersonController.transform.rotation = Quaternion.LookRotation(ClimbTrigger.DetectedClimbable.transform.forward);
 
-            // Set player target position
+            /*// Set player target position
             _targetPosition = ClimbingTriggerCollider.transform.position;
-            _targetPosition.y -= TargetOffset; // Magic number
+            _targetPosition.y -= TargetOffset; // Magic number*/
+            GrabClimbable(ClimbTrigger);
         }
         else
         {
             _playerInput.actions.FindAction("Move").Enable();
             _playerInput.actions.FindAction("ClimbEnabled").Enable();
             _playerInput.actions.FindActionMap("Climbing").Disable();
+            
+            SetGrabModeEnabled(false);
         }
         
         IsClimbing = enabled;
         _thirdPersonController.SetGravityEnabled(!enabled);
 
-        ClimbingTriggerCollider.transform.localPosition = Vector3.zero;
+        ClimbTrigger.transform.localPosition = Vector3.zero;
+        GrabTrigger.transform.localPosition = Vector3.zero;
     }
 
-    public void GrabClimbable()
+    public void GrabClimbable(ClimberTrigger trigger)
     {
-        if (!ClimbingTriggerCollider.IsClimbableDetected)
+        if (!trigger.IsClimbableDetected)
         {
             return;
         }
 
-        _targetPosition = ClimbingTriggerCollider.transform.position;
+        IsMoving = true;
+        _targetPosition = trigger.transform.position;
         _targetPosition.y -= TargetOffset;
-        ClimbingTriggerCollider.transform.localPosition = Vector3.zero;
+        trigger.transform.localPosition = Vector3.zero;
     }
 
     // Initiate grabbing controls if the player is holding the mouse button that frame
@@ -151,17 +161,17 @@ public class ClimberController : MonoBehaviour
         {
             _playerInput.actions.FindAction("Reach").Disable();
             _playerInput.actions.FindAction("Look").Enable();
-            GrabClimbable();
-            ClimbingTriggerCollider.transform.localPosition = Vector3.zero;
+            GrabClimbable(GrabTrigger);
+            GrabTrigger.transform.localPosition = Vector3.zero;
         }
     }
 
     /*Move player's reach according to mouse movements*/
     public void MoveReach()
     {
-        Vector3 newLocalPosition = ClimbingTriggerCollider.transform.localPosition + _climberInputs.ReachDirection.ConvertTo<Vector3>();
-        ClimbingTriggerCollider.transform.localPosition = Vector3.Lerp(ClimbingTriggerCollider.transform.localPosition, newLocalPosition, Time.deltaTime);
-        ClimbingTriggerCollider.transform.localPosition =
-            Vector3.ClampMagnitude(ClimbingTriggerCollider.transform.localPosition, LongReachRange);
+        Vector3 newLocalPosition = GrabTrigger.transform.localPosition + _climberInputs.ReachDirection.ConvertTo<Vector3>();
+        GrabTrigger.transform.localPosition = Vector3.Lerp(GrabTrigger.transform.localPosition, newLocalPosition, Time.deltaTime);
+        GrabTrigger.transform.localPosition =
+            Vector3.ClampMagnitude(GrabTrigger.transform.localPosition, LongReachRange);
     }
 }
