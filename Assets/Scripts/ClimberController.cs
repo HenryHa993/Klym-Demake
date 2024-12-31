@@ -17,6 +17,9 @@ public class ClimberController : MonoBehaviour
 {
     public ClimberTrigger ClimbTrigger;
     public ClimberTrigger GrabTrigger;
+
+    public ClimberHand ActiveHand;
+    public ClimberHand InactiveHand;
     
     public bool IsClimbing;
     public bool IsGrabbing;
@@ -144,8 +147,15 @@ public class ClimberController : MonoBehaviour
         }
 
         _targetPosition = trigger.transform.position;
+        
+        ActiveHand.SetHandPosition(_targetPosition);
+        
         _targetPosition.y -= TargetOffset;
+        
         trigger.transform.localPosition = Vector3.zero;
+
+        (ActiveHand, InactiveHand) = (InactiveHand, ActiveHand);
+        InactiveHand.SetHandActive(false);
     }
 
     // Initiate grabbing controls if the player is holding the mouse button that frame
@@ -171,9 +181,19 @@ public class ClimberController : MonoBehaviour
     /*Move player's reach according to mouse movements*/
     public void MoveReach()
     {
+        if (_climberInputs.ReachDirection == Vector2.zero)
+        {
+            return;
+        }
+        
         Vector3 newLocalPosition = GrabTrigger.transform.localPosition + _climberInputs.ReachDirection.ConvertTo<Vector3>();
         GrabTrigger.transform.localPosition = Vector3.Lerp(GrabTrigger.transform.localPosition, newLocalPosition, Time.deltaTime);
         GrabTrigger.transform.localPosition =
             Vector3.ClampMagnitude(GrabTrigger.transform.localPosition, LongReachRange);
+        
+        ActiveHand.SetHandPosition(GrabTrigger.transform.position - ActiveHand.Offset);
+        ActiveHand.SetHandActive(true);
+        ActiveHand.transform.localRotation = Quaternion.Euler(0, 0,
+            (Mathf.Atan2(GrabTrigger.transform.localPosition.y, GrabTrigger.transform.localPosition.x) * Mathf.Rad2Deg) - 90.0f);
     }
 }
