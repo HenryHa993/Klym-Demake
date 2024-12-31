@@ -13,7 +13,7 @@ public class ClimberTrigger : MonoBehaviour
     /*The player will not move if the trigger exits a climbable.*/
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer != LayerMask.NameToLayer("Climbable"))
+        if (other.gameObject.layer != LayerMask.NameToLayer("Climbable") || other.gameObject != DetectedClimbable)
         {
             return;
         }

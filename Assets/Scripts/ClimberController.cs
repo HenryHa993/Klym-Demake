@@ -19,7 +19,7 @@ public class ClimberController : MonoBehaviour
     public ClimberTrigger GrabTrigger;
     
     public bool IsClimbing;
-    public bool IsMoving;
+    public bool IsGrabbing;
     
     public float TransitionSpeed = 3.0f;
     public float TargetOffset = 1.2f;
@@ -65,7 +65,7 @@ public class ClimberController : MonoBehaviour
         if (_climberInputs.GrabDisabled)
         {
             SetGrabModeEnabled(false);
-            _climberInputs.GrabDisabled = false; // Delay this
+            _climberInputs.GrabDisabled = false;
         }
         
         MoveReach();
@@ -80,7 +80,7 @@ public class ClimberController : MonoBehaviour
         }
         
         // Move around ledge detector but if grab is disabled in this frame, do not 
-        if (_climberInputs.Direction != Vector2.zero && !IsMoving)
+        if (_climberInputs.Direction != Vector2.zero && !IsGrabbing)
         {
             ClimbTrigger.transform.localPosition = _climberInputs.Direction * SoftReachRange;
             GrabClimbable(ClimbTrigger);
@@ -89,11 +89,11 @@ public class ClimberController : MonoBehaviour
         // Lerping between current position and target
         if ((transform.position - _targetPosition).magnitude > 0.01f)
         {
-            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.deltaTime * TransitionSpeed); // magic numbers
+            transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * TransitionSpeed); // magic numbers
         }
         else
         {
-            IsMoving = false;
+            IsGrabbing = false;
         }
     }
 
@@ -143,7 +143,6 @@ public class ClimberController : MonoBehaviour
             return;
         }
 
-        IsMoving = true;
         _targetPosition = trigger.transform.position;
         _targetPosition.y -= TargetOffset;
         trigger.transform.localPosition = Vector3.zero;
@@ -161,6 +160,9 @@ public class ClimberController : MonoBehaviour
         {
             _playerInput.actions.FindAction("Reach").Disable();
             _playerInput.actions.FindAction("Look").Enable();
+            
+            IsGrabbing = true;
+            
             GrabClimbable(GrabTrigger);
             GrabTrigger.transform.localPosition = Vector3.zero;
         }
