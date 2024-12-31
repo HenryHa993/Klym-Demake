@@ -13,6 +13,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class ClimberHand : MonoBehaviour
 {
+    public GameObject Body;
     public Sprite OpenHand;
     public Sprite ClosedHand;
 
@@ -30,6 +31,8 @@ public class ClimberHand : MonoBehaviour
     private void FixedUpdate()
     {
         transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * TransitionSpeed);
+        transform.localRotation = Quaternion.Euler(0, 0,
+            (Mathf.Atan2(transform.localPosition.y, transform.localPosition.x) * Mathf.Rad2Deg) - 90.0f);
     }
 
     public void SetHandActive(bool enabled)

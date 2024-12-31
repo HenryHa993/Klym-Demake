@@ -193,7 +193,5 @@ public class ClimberController : MonoBehaviour
         
         ActiveHand.SetHandPosition(GrabTrigger.transform.position - ActiveHand.Offset);
         ActiveHand.SetHandActive(true);
-        ActiveHand.transform.localRotation = Quaternion.Euler(0, 0,
-            (Mathf.Atan2(GrabTrigger.transform.localPosition.y, GrabTrigger.transform.localPosition.x) * Mathf.Rad2Deg) - 90.0f);
     }
 }
