@@ -76,6 +76,8 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        public FootprintsSystem FootprintsSys;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -267,6 +269,13 @@ namespace StarterAssets
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                
+                // Player must be moving and grounded for footprints
+                FootprintsSys.SetFootprintsEnabled(Grounded);
+            }
+            else
+            {
+                FootprintsSys.SetFootprintsEnabled(false);
             }
 
 
