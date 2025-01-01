@@ -27,7 +27,7 @@ public class Footprint : MonoBehaviour
         }
         Debug.Log("Faded out");
         
-        Destroy(this);
+        Destroy(gameObject);
     }
     
     public IEnumerator FadeIn()

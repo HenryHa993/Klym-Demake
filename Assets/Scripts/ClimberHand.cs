@@ -13,7 +13,6 @@ using Vector3 = UnityEngine.Vector3;
 
 public class ClimberHand : MonoBehaviour
 {
-    public GameObject Body;
     public Sprite OpenHand;
     public Sprite ClosedHand;
 
