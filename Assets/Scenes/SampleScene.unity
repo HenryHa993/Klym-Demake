@@ -130,10 +130,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1668535254568525943, guid: 212907312655a4443a025a304442c17c, type: 3}
-      propertyPath: TimeBetweenFootprints
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 2119775930974504096, guid: 212907312655a4443a025a304442c17c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -46,6 +46,7 @@ public class FootprintsSystem : MonoBehaviour
         }
     }
 
+    // todo: Specific foot positions
     public void SpawnFootprint()
     {
         Instantiate(CurrentFootprint, transform.position + Offset, transform.rotation * CurrentFootprint.transform.rotation);

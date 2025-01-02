@@ -29,6 +29,7 @@ public class ClimberHand : MonoBehaviour
 
     private void FixedUpdate()
     {
+        return;
         transform.position = Vector3.Lerp(transform.position, _targetPosition, Time.fixedDeltaTime * TransitionSpeed);
         transform.localRotation = Quaternion.Euler(0, 0,
             (Mathf.Atan2(transform.localPosition.y, transform.localPosition.x) * Mathf.Rad2Deg) - 90.0f);

@@ -18,8 +18,8 @@ public class ClimberController : MonoBehaviour
     public ClimberTrigger ClimbTrigger;
     public ClimberTrigger GrabTrigger;
 
-    public ClimberHand ActiveHand;
-    public ClimberHand InactiveHand;
+    /*public ClimberHand ActiveHand;
+    public ClimberHand InactiveHand;*/
     
     public bool IsClimbing;
     public bool IsGrabbing;
@@ -148,14 +148,16 @@ public class ClimberController : MonoBehaviour
 
         _targetPosition = trigger.transform.position;
         
+        /*
         ActiveHand.SetHandPosition(_targetPosition);
+        */
         
         _targetPosition.y -= TargetOffset;
         
         trigger.transform.localPosition = Vector3.zero;
 
-        (ActiveHand, InactiveHand) = (InactiveHand, ActiveHand);
-        InactiveHand.SetHandActive(false);
+        /*(ActiveHand, InactiveHand) = (InactiveHand, ActiveHand);
+        InactiveHand.SetHandActive(false);*/
     }
 
     // Initiate grabbing controls if the player is holding the mouse button that frame
@@ -191,7 +193,7 @@ public class ClimberController : MonoBehaviour
         GrabTrigger.transform.localPosition =
             Vector3.ClampMagnitude(GrabTrigger.transform.localPosition, LongReachRange);
         
-        ActiveHand.SetHandPosition(GrabTrigger.transform.position - ActiveHand.Offset);
-        ActiveHand.SetHandActive(true);
+        /*ActiveHand.SetHandPosition(GrabTrigger.transform.position - ActiveHand.Offset);
+        ActiveHand.SetHandActive(true);*/
     }
 }
