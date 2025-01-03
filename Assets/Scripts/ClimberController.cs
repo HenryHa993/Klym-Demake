@@ -18,8 +18,8 @@ public class ClimberController : MonoBehaviour
     public ClimberTrigger ClimbTrigger;
     public ClimberTrigger GrabTrigger;
 
-    /*public ClimberHand ActiveHand;
-    public ClimberHand InactiveHand;*/
+    public ClimberHand ActiveHand;
+    public ClimberHand InactiveHand;
     
     public bool IsClimbing;
     public bool IsGrabbing;
@@ -33,6 +33,7 @@ public class ClimberController : MonoBehaviour
     private CharacterController _characterController; // For player transform (AND NOT ROTATION)
     private PlayerInput _playerInput; // Input management
     private ClimberInputs _climberInputs;
+    private Animator _animator;
     
     private Vector3 _targetPosition;
     
@@ -42,6 +43,7 @@ public class ClimberController : MonoBehaviour
         _characterController = GetComponent<CharacterController>();
         _playerInput = GetComponent<PlayerInput>();
         _climberInputs = GetComponent<ClimberInputs>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -118,9 +120,13 @@ public class ClimberController : MonoBehaviour
             // Align player with wall
             _thirdPersonController.transform.rotation = Quaternion.LookRotation(ClimbTrigger.DetectedClimbable.transform.forward);
 
-            /*// Set player target position
-            _targetPosition = ClimbingTriggerCollider.transform.position;
-            _targetPosition.y -= TargetOffset; // Magic number*/
+            // Put hands up on the starting ledge
+            float yDiff = ClimbTrigger.transform.position.y - ActiveHand.transform.position.y;
+            ActiveHand.SetHandState(ClimberHand.HandState.Grab);
+            ActiveHand.SetTargetPosition(ActiveHand.transform.position + new Vector3(0, yDiff, 0));
+            InactiveHand.SetHandState(ClimberHand.HandState.Grab);
+            InactiveHand.SetTargetPosition(InactiveHand.transform.position + new Vector3(0, yDiff, 0));
+            
             GrabClimbable(ClimbTrigger);
         }
         else
@@ -129,11 +135,18 @@ public class ClimberController : MonoBehaviour
             _playerInput.actions.FindAction("ClimbEnabled").Enable();
             _playerInput.actions.FindActionMap("Climbing").Disable();
             
-            SetGrabModeEnabled(false);
+            _playerInput.actions.FindAction("Reach").Disable();
+            _playerInput.actions.FindAction("Look").Enable();
+            
+            // Hands reset
+            ActiveHand.SetHandState(ClimberHand.HandState.Idle);
+            InactiveHand.SetHandState(ClimberHand.HandState.Idle);
+            
         }
         
         IsClimbing = enabled;
         _thirdPersonController.SetGravityEnabled(!enabled);
+        _animator.SetBool("IsClimbing", enabled); // todo: Cache ID
 
         ClimbTrigger.transform.localPosition = Vector3.zero;
         GrabTrigger.transform.localPosition = Vector3.zero;
@@ -148,16 +161,14 @@ public class ClimberController : MonoBehaviour
 
         _targetPosition = trigger.transform.position;
         
-        /*
-        ActiveHand.SetHandPosition(_targetPosition);
-        */
+        ActiveHand.SetTargetPosition(_targetPosition);
+        ActiveHand.SetHandState(ClimberHand.HandState.Grab);
+        (ActiveHand, InactiveHand) = (InactiveHand, ActiveHand);
         
         _targetPosition.y -= TargetOffset;
         
         trigger.transform.localPosition = Vector3.zero;
 
-        /*(ActiveHand, InactiveHand) = (InactiveHand, ActiveHand);
-        InactiveHand.SetHandActive(false);*/
     }
 
     // Initiate grabbing controls if the player is holding the mouse button that frame
@@ -174,8 +185,8 @@ public class ClimberController : MonoBehaviour
             _playerInput.actions.FindAction("Look").Enable();
             
             IsGrabbing = true;
-            
             GrabClimbable(GrabTrigger);
+
             GrabTrigger.transform.localPosition = Vector3.zero;
         }
     }
@@ -193,7 +204,7 @@ public class ClimberController : MonoBehaviour
         GrabTrigger.transform.localPosition =
             Vector3.ClampMagnitude(GrabTrigger.transform.localPosition, LongReachRange);
         
-        /*ActiveHand.SetHandPosition(GrabTrigger.transform.position - ActiveHand.Offset);
-        ActiveHand.SetHandActive(true);*/
+        ActiveHand.SetTargetPosition(GrabTrigger.transform.position - ActiveHand.Offset);
+        ActiveHand.SetHandState(ClimberHand.HandState.Reach);
     }
 }

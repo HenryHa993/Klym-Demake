@@ -459,6 +459,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2184698865499807115, guid: a97f132950581454eae2adf1bb251d10, type: 3}
   m_PrefabInstance: {fileID: 2777961162427708736}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6028707534522879071 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8441726449737578783, guid: a97f132950581454eae2adf1bb251d10, type: 3}
+  m_PrefabInstance: {fileID: 2777961162427708736}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fbfa4bbdede1f64bacb4b64c8d8e27b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3515378425540693942
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -831,6 +842,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClimbTrigger: {fileID: 4527543033009050299}
   GrabTrigger: {fileID: 2296113150444459683}
+  ActiveHand: {fileID: 6028707534522879071}
+  InactiveHand: {fileID: 345552371209797406}
   IsClimbing: 0
   IsGrabbing: 0
   TransitionSpeed: 30
@@ -1019,6 +1032,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a97f132950581454eae2adf1bb251d10, type: 3}
+--- !u!114 &345552371209797406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8441726449737578783, guid: a97f132950581454eae2adf1bb251d10, type: 3}
+  m_PrefabInstance: {fileID: 8209129150030562817}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fbfa4bbdede1f64bacb4b64c8d8e27b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8051648320196631434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2184698865499807115, guid: a97f132950581454eae2adf1bb251d10, type: 3}
