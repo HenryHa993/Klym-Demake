@@ -165,7 +165,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d61d72a8ffb9c8744bacc47f165cd928, type: 3}
   - {fileID: 21300000, guid: 74c6872b97ee8d245b58081acf90a840, type: 3}
   - {fileID: 21300000, guid: d8493b2cc77eb604e93325222dd1fea4, type: 3}
-  - {fileID: 21300000, guid: 61f8954f7cc259644924dee69a21590f, type: 3}
+  - {fileID: 21300000, guid: 8fcc38e157899aa4e93cc2bc870bbe83, type: 3}
   Offset: {x: 0, y: 0, z: 0}
   TransitionSpeed: 15
   SpriteRenderer: {fileID: 1825950468092174256}

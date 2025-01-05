@@ -3,6 +3,7 @@ using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,6 +16,9 @@ using Vector3 = UnityEngine.Vector3;
  * the player latches onto a given ledge.*/
 public class ClimberController : MonoBehaviour
 {
+    public CinemachineVirtualCamera _virtualCamera;
+    public GameObject PlayerCameraRoot;
+    
     public ClimberTrigger ClimbTrigger;
     public ClimberTrigger GrabTrigger;
 
@@ -178,6 +182,8 @@ public class ClimberController : MonoBehaviour
         {
             _playerInput.actions.FindAction("Reach").Enable();
             _playerInput.actions.FindAction("Look").Disable();
+            SetGrabCameraActive(true);
+            // Camera functions
         }
         else
         {
@@ -188,6 +194,7 @@ public class ClimberController : MonoBehaviour
             GrabClimbable(GrabTrigger);
 
             GrabTrigger.transform.localPosition = Vector3.zero;
+            SetGrabCameraActive(false);
         }
     }
 
@@ -205,6 +212,30 @@ public class ClimberController : MonoBehaviour
             Vector3.ClampMagnitude(GrabTrigger.transform.localPosition, LongReachRange);
         
         ActiveHand.SetTargetPosition(GrabTrigger.transform.position - ActiveHand.Offset);
-        ActiveHand.SetHandState(ClimberHand.HandState.Reach);
+        
+        if (GrabTrigger.IsClimbableDetected)
+        {
+            ActiveHand.SetHandState(ClimberHand.HandState.DetectLedge);
+        }
+        else
+        {
+            ActiveHand.SetHandState(ClimberHand.HandState.Reach);
+        }
+    }
+
+    public void SetGrabCameraActive(bool enabled)
+    {
+        if (enabled)
+        {
+            _virtualCamera.Follow = GrabTrigger.transform;
+            Cinemachine3rdPersonFollow thirdPersonFollow = _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            thirdPersonFollow.Damping = new Vector3(5, 5, 5);
+        }
+        else
+        {
+            _virtualCamera.Follow = PlayerCameraRoot.transform;
+            Cinemachine3rdPersonFollow thirdPersonFollow = _virtualCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+            thirdPersonFollow.Damping = new Vector3(1, 1, 1);
+        }
     }
 }

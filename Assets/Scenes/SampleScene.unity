@@ -170,6 +170,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5731942427414931719, guid: 212907312655a4443a025a304442c17c, type: 3}
+      propertyPath: PlayerCameraRoot
+      value: 
+      objectReference: {fileID: 1101342220}
     - target: {fileID: 8047161636021232021, guid: 212907312655a4443a025a304442c17c, type: 3}
       propertyPath: m_Name
       value: NestedParentCapsule_Unpack
@@ -919,6 +923,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d36a559f373f9b408973be069dd7d86, type: 3}
+--- !u!1 &1101342220 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1654322001227874702, guid: 212907312655a4443a025a304442c17c, type: 3}
+  m_PrefabInstance: {fileID: 46103018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1140819806
 PrefabInstance:
   m_ObjectHideFlags: 0
