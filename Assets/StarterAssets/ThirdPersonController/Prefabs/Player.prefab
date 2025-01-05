@@ -120,6 +120,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsClimbableDetected: 0
   DetectedClimbable: {fileID: 0}
+--- !u!1 &4833656576831590511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 655470873151504967}
+  - component: {fileID: 3311437465079000941}
+  m_Layer: 0
+  m_Name: PlayerCameraRoot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &655470873151504967
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833656576831590511}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1654322001227874697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3311437465079000941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833656576831590511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8e1e4f576bdba4a806350377a6fbca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6714228700917702048
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +729,7 @@ PrefabInstance:
     - target: {fileID: 2070925441746177913, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: m_Follow
       value: 
-      objectReference: {fileID: 1654322001227874697}
+      objectReference: {fileID: 655470873151504967}
     - target: {fileID: 2070925442191277752, guid: a1a802ecaf6775746bb2a929fb554ad8, type: 3}
       propertyPath: CameraSide
       value: 0.5
@@ -780,12 +824,28 @@ PrefabInstance:
       value: PlayerCapsule
       objectReference: {fileID: 0}
     - target: {fileID: 1925873226565265913, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
+      propertyPath: Gravity
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925873226565265913, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
       propertyPath: FootprintsSys
       value: 
       objectReference: {fileID: 1668535254568525943}
     - target: {fileID: 1925873226565265913, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
+      propertyPath: DefaultGravity
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925873226565265913, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
       propertyPath: GroundLayers.m_Bits
       value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1925873226565265913, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
+      propertyPath: CinemachineCameraTarget
+      value: 
+      objectReference: {fileID: 4833656576831590511}
+    - target: {fileID: 6074239116653777065, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
+      propertyPath: m_Name
+      value: PlayerCameraRootOffset
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 29811326, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
@@ -813,6 +873,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1293029876712600392, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9080621549508551282}
+    - targetCorrespondingSourceObject: {fileID: 6074239116653777070, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 655470873151504967}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1925873226565265906, guid: 2553cec8fdb3eb643bbe9f2ec880c472, type: 3}
       insertIndex: -1
@@ -852,16 +915,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _virtualCamera: {fileID: 3203261902030644825}
+  PlayerCameraRoot: {fileID: 3311437465079000941}
   ClimbTrigger: {fileID: 4527543033009050299}
   GrabTrigger: {fileID: 2296113150444459683}
   ActiveHand: {fileID: 6028707534522879071}
   InactiveHand: {fileID: 345552371209797406}
   IsClimbing: 0
   IsGrabbing: 0
-  TransitionSpeed: 30
+  TransitionSpeed: 10
   TargetOffset: 1.2
   SoftReachRange: 0.1
   LongReachRange: 1
+  ClimbCameraDamping: {x: 5, y: 5, z: 5}
+  NavigationDamping: {x: 0, y: 0, z: 0}
 --- !u!114 &4311073691769501403
 MonoBehaviour:
   m_ObjectHideFlags: 0
