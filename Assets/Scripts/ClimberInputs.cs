@@ -15,6 +15,7 @@ public class ClimberInputs : MonoBehaviour
     
     public bool GrabEnabled;
     public bool GrabDisabled;
+    public bool GrabActive;
     
     /*Player input mappings. Might be better to insert into the player controller.*/
     public void OnClimbEnabled(InputValue value)
@@ -71,6 +72,7 @@ public class ClimberInputs : MonoBehaviour
     public void GrabEnableInput()
     {
         GrabEnabled = true;
+        GrabActive = true;
     }
     
     public void OnGrabDisable(InputValue value)
@@ -81,5 +83,6 @@ public class ClimberInputs : MonoBehaviour
     public void GrabDisableInput()
     {
         GrabDisabled = true;
+        GrabActive = false;
     }
 }

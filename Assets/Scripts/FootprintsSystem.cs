@@ -7,9 +7,9 @@ public class FootprintsSystem : MonoBehaviour
 {
     public GameObject CurrentFootprint;
     public GameObject NextFootprint;
-
-    public Vector3 Offset;
-
+    public GameObject CurrentPosition;
+    public GameObject NextPosition;
+    
     public bool Enabled;
 
     public float TimeBetweenFootprints;
@@ -49,8 +49,8 @@ public class FootprintsSystem : MonoBehaviour
     // todo: Specific foot positions
     public void SpawnFootprint()
     {
-        Instantiate(CurrentFootprint, transform.position + Offset, transform.rotation * CurrentFootprint.transform.rotation);
+        Instantiate(CurrentFootprint, CurrentPosition.transform.position, transform.rotation * CurrentFootprint.transform.rotation);
         (CurrentFootprint, NextFootprint) = (NextFootprint, CurrentFootprint);
-        Offset = -Offset;
+        (CurrentPosition, NextPosition) = (NextPosition, CurrentPosition);
     }
 }

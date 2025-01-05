@@ -234,7 +234,7 @@ public class ClimberController : MonoBehaviour
     public void MoveReach()
     {
         // todo: State for holding LMB
-        if (_climberInputs.ReachDirection == Vector2.zero)
+        if (!_climberInputs.GrabActive)
         {
             return;
         }
