@@ -147,7 +147,7 @@ public class ClimberController : MonoBehaviour
             ActiveHand.SetHandState(ClimberHand.HandState.Idle);
             InactiveHand.SetHandState(ClimberHand.HandState.Idle);
             
-            GrabTrigger.transform.localPosition = Vector3.zero; // todo: I feel like triggers should be reset else where?
+            //GrabTrigger.transform.localPosition = Vector3.zero; // todo: I feel like triggers should be reset else where?
 
             _thirdPersonFollow.Damping = NavigationDamping;
 
