@@ -12,6 +12,8 @@ public class ClimberTrigger : MonoBehaviour
     public GameObject DetectedClimbable;
     public GameObject DetectedPickup;
 
+    public LayerMask CollisionLayerMask;
+
     /*The player will not move if the trigger exits a climbable.*/
     private void OnTriggerExit(Collider other)
     {
@@ -57,8 +59,8 @@ public class ClimberTrigger : MonoBehaviour
     public Vector3 GetGrabPoint()
     {
         RaycastHit hit;
-        //Physics.ra
-        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        //Physics.Raycast(transform.position - (transform.forward * 0.1f) , transform.forward, out hit, 5.0f, CollisionLayerMask)
+        if (Physics.SphereCast(transform.position - (transform.forward * 0.1f) ,0.2f, transform.forward, out hit, 3.0f, CollisionLayerMask))
         {
             return hit.point;
         }

@@ -170,14 +170,14 @@ public class ClimberController : MonoBehaviour
     public void GrabClimbable(ClimberTrigger trigger)
     {
         // Do nothing if no climbable
-        if (!trigger.IsClimbableDetected)
+        if (!trigger.IsClimbableDetected || trigger.GetGrabPoint() == Vector3.zero)
         {
             // If not climbing, reset hands
             if (!IsClimbing)
             {
                 SetClimbingEnabled(false);
             }
-            GrabTrigger.transform.localPosition = Vector3.zero;
+            trigger.transform.localPosition = Vector3.zero;
             return;
         }
         
@@ -187,15 +187,9 @@ public class ClimberController : MonoBehaviour
             SetClimbingEnabled(true);
         }
         
-        _targetPosition = trigger.transform.position;
-        
-        /*// Forward distance check
-        Vector3 difference = GrabTrigger.DetectedClimbable.transform.position - _targetPosition;
-        float forwardDiff = Vector3.Dot(difference, GrabTrigger.DetectedClimbable.transform.forward);
-        if (forwardDiff < 0.3f)
-        {
-            _targetPosition -= (GrabTrigger.DetectedClimbable.transform.forward * 0.3f);
-        }*/
+        //_targetPosition = trigger.transform.position;
+        _targetPosition = trigger.GetGrabPoint();
+        _targetPosition -= (trigger.DetectedClimbable.transform.forward * 0.4f);
         
         // Set new ActiveHand target position, and swap hands.
         ActiveHand.SetTargetPosition(_targetPosition);
@@ -205,7 +199,7 @@ public class ClimberController : MonoBehaviour
         _targetPosition.y -= TargetOffset;
         
         // Align player with climbable
-        _thirdPersonController.transform.rotation = Quaternion.LookRotation(GrabTrigger.DetectedClimbable.transform.forward);
+        _thirdPersonController.transform.rotation = Quaternion.LookRotation(trigger.DetectedClimbable.transform.forward);
         
         // Reset position.
         // todo: should this be somewhere else? What if it fails?
