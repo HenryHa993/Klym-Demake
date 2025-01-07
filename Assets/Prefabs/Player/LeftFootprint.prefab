@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5859686545648843379}
   - component: {fileID: 2965120514754048348}
   - component: {fileID: -4962878822083680452}
+  - component: {fileID: 3868845231608099889}
   m_Layer: 0
   m_Name: LeftFootprint
   m_TagString: Untagged
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 63792153
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 51558e1c862fa8c4dbeab321e8bff7dd, type: 3}
   m_Color: {r: 0.14901961, g: 0.13725491, b: 0.14901961, a: 1}
@@ -95,6 +96,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ae55df717416214a9ff741f952c496b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FadeInSpeed: 4
+  FadeOutSpeed: 0.2
+--- !u!114 &3868845231608099889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4823645635391735533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77f2009df6e16de4cb4988ab6ea9cf42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   FadeInSpeed: 4

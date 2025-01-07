@@ -1,20 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Footprint : MonoBehaviour
+public class Fade : MonoBehaviour
 {
+    private SpriteRenderer _spriteRenderer;
     private Color _color;
     
     public float FadeInSpeed = 1.0f;
     public float FadeOutSpeed = 1.0f;
-    
-    // Start is called before the first frame update
-    IEnumerator Start()
+
+    private void Start()
     {
-        _color = GetComponent<SpriteRenderer>().material.color;
-        yield return FadeIn();
-        yield return FadeOut();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _color = _spriteRenderer.material.color;
     }
 
     public IEnumerator FadeOut()
@@ -25,9 +25,6 @@ public class Footprint : MonoBehaviour
             GetComponent<SpriteRenderer>().material.SetColor("_Color", _color);
             yield return null;
         }
-        Debug.Log("Faded out");
-        
-        Destroy(gameObject);
     }
     
     public IEnumerator FadeIn()
@@ -38,6 +35,6 @@ public class Footprint : MonoBehaviour
             GetComponent<SpriteRenderer>().material.SetColor("_Color", _color);
             yield return null;
         }
-        Debug.Log("Faded in");
     }
+
 }

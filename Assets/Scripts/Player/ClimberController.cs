@@ -175,6 +175,7 @@ public class ClimberController : MonoBehaviour
         // Do nothing if no climbable
         if (!trigger.IsClimbableDetected)
         {
+            // If not climbing, reset hands
             if (!IsClimbing)
             {
                 SetClimbingEnabled(false);
@@ -183,7 +184,7 @@ public class ClimberController : MonoBehaviour
             return;
         }
         
-        // If not climbing, initiate climbing mode.
+        // If not climbing and grabable detected, initiate climbing mode.
         if (!IsClimbing)
         {
             SetClimbingEnabled(true);
@@ -203,6 +204,21 @@ public class ClimberController : MonoBehaviour
         trigger.transform.localPosition = Vector3.zero;
 
     }
+    
+    /*Grab pickup.*/
+    public void GrabPickup(ClimberTrigger trigger)
+    {
+        Pickup pickup = trigger.DetectedPickup.GetComponent<Pickup>();
+        StartCoroutine(pickup.Interaction());
+        ResetGrab();
+    }
+
+    public void ResetGrab()
+    {
+        ActiveHand.SetHandState(ClimberHand.HandState.Idle);
+        InactiveHand.SetHandState(ClimberHand.HandState.Idle);
+        GrabTrigger.transform.localPosition = Vector3.zero;
+    }
 
     /*Settings for initiating/exiting grabbing mode when the LMB is up or down.*/
     public void SetGrabModeEnabled(bool enabled)
@@ -220,9 +236,18 @@ public class ClimberController : MonoBehaviour
             _playerInput.actions.FindAction("Reach").Disable();
             _playerInput.actions.FindAction("Look").Enable();
             
-            // todo: should this be in an if detected statement?
-            IsGrabbing = true;
-            GrabClimbable(GrabTrigger);
+            // if 
+            
+            // Player should only ever pickup objects out of climbing, so hands should reset
+            if (GrabTrigger.IsPickupDetected)
+            {
+                GrabPickup(GrabTrigger);
+            }
+            else // Otherwise, attempt to grab a climbable
+            {
+                IsGrabbing = true;
+                GrabClimbable(GrabTrigger);
+            }
             
             // todo: should I rely on grab trigger to reset it?
             //GrabTrigger.transform.localPosition = Vector3.zero;
@@ -248,7 +273,7 @@ public class ClimberController : MonoBehaviour
         ActiveHand.SetTargetPosition(GrabTrigger.transform.position);
         
         // Set appropriate hand state.
-        if (GrabTrigger.IsClimbableDetected)
+        if (GrabTrigger.IsClimbableDetected || GrabTrigger.IsPickupDetected)
         {
             ActiveHand.SetHandState(ClimberHand.HandState.DetectLedge);
         }

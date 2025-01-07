@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Subtitles : MonoBehaviour
 {
@@ -13,14 +14,24 @@ public class Subtitles : MonoBehaviour
 
     public string[] StartingDialogue;
 
+    private PlayerInput _playerInput;
+
     private void Start()
     {
+        _playerInput = GetComponent<PlayerInput>();
+        
         StartCoroutine(PlayDialogue(StartingDialogue));
     }
 
-    public IEnumerator PlayDialogue(string[] dialogue)
+    public void StartDialogue(string[] dialogue)
+    {
+        StartCoroutine(PlayDialogue(dialogue));
+    }
+
+    private IEnumerator PlayDialogue(string[] dialogue)
     {
         SubtitlesGO.SetActive(true);
+        InputSetActive(false);
         
         foreach(string line in dialogue)
         {
@@ -32,5 +43,19 @@ public class Subtitles : MonoBehaviour
         }
         
         SubtitlesGO.SetActive(false);
+        InputSetActive(true);
+    }
+
+    private void InputSetActive(bool enabled)
+    {
+        if (enabled)
+        {
+            _playerInput.actions.Enable();
+            _playerInput.actions.FindActionMap("Climbing").Disable();
+        }
+        else
+        {
+            _playerInput.actions.Disable();
+        }
     }
 }
