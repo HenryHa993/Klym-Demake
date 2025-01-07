@@ -486,6 +486,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Subtitles
       objectReference: {fileID: 0}
+    - target: {fileID: 3149927953016173551, guid: e24beb1b62e536c4a850d865c5c374b7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6090958209981240772, guid: e24beb1b62e536c4a850d865c5c374b7, type: 3}
       propertyPath: m_text
       value: '"Sheriff! Why are you naked?"'
@@ -586,7 +590,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8441726449737578783, guid: a97f132950581454eae2adf1bb251d10, type: 3}
       propertyPath: Offset.x
-      value: 0.15
+      value: -0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1117,7 +1121,7 @@ MonoBehaviour:
   Text: {fileID: 8168269158922424841}
   DialogueDuration: 0
   StartingDialogue:
-  - '"Sheriff!"'
+  - '"Sheriff."'
   - '"Why are you naked?"'
 --- !u!114 &6293075693394993991
 MonoBehaviour:
@@ -1283,7 +1287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8441726449737578783, guid: a97f132950581454eae2adf1bb251d10, type: 3}
       propertyPath: Offset.x
-      value: -0.15
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

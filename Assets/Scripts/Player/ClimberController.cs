@@ -120,9 +120,6 @@ public class ClimberController : MonoBehaviour
             _playerInput.actions.FindAction("Move").Disable();
             _playerInput.actions.FindActionMap("Climbing").Enable();
             _playerInput.actions.FindAction("Reach").Disable();
-
-            // Align player with climbable
-            _thirdPersonController.transform.rotation = Quaternion.LookRotation(GrabTrigger.DetectedClimbable.transform.forward);
             
             // Virtual camera settings
             _thirdPersonFollow.Damping = ClimbCameraDamping;
@@ -192,12 +189,23 @@ public class ClimberController : MonoBehaviour
         
         _targetPosition = trigger.transform.position;
         
+        /*// Forward distance check
+        Vector3 difference = GrabTrigger.DetectedClimbable.transform.position - _targetPosition;
+        float forwardDiff = Vector3.Dot(difference, GrabTrigger.DetectedClimbable.transform.forward);
+        if (forwardDiff < 0.3f)
+        {
+            _targetPosition -= (GrabTrigger.DetectedClimbable.transform.forward * 0.3f);
+        }*/
+        
         // Set new ActiveHand target position, and swap hands.
         ActiveHand.SetTargetPosition(_targetPosition);
         ActiveHand.SetHandState(ClimberHand.HandState.Grab);
         (ActiveHand, InactiveHand) = (InactiveHand, ActiveHand);
         
         _targetPosition.y -= TargetOffset;
+        
+        // Align player with climbable
+        _thirdPersonController.transform.rotation = Quaternion.LookRotation(GrabTrigger.DetectedClimbable.transform.forward);
         
         // Reset position.
         // todo: should this be somewhere else? What if it fails?

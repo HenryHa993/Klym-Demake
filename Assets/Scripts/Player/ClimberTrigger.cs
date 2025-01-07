@@ -19,7 +19,6 @@ public class ClimberTrigger : MonoBehaviour
         {
             return;
         }*/
-
         if (other.gameObject == DetectedClimbable)
         {
             IsClimbableDetected = false;
@@ -53,5 +52,17 @@ public class ClimberTrigger : MonoBehaviour
             DetectedPickup = other.gameObject;
         }
         
+    }
+
+    public Vector3 GetGrabPoint()
+    {
+        RaycastHit hit;
+        //Physics.ra
+        if (Physics.Raycast(transform.position, transform.forward, out hit))
+        {
+            return hit.point;
+        }
+
+        return Vector3.zero;
     }
 }
