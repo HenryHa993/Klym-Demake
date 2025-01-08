@@ -60,7 +60,7 @@ public class ClimberTrigger : MonoBehaviour
     {
         RaycastHit hit;
         //Physics.Raycast(transform.position - (transform.forward * 0.1f) , transform.forward, out hit, 5.0f, CollisionLayerMask)
-        if (Physics.SphereCast(transform.position - (transform.forward * 0.1f) ,0.2f, transform.forward, out hit, 3.0f, CollisionLayerMask))
+        if (Physics.SphereCast(transform.position - (transform.forward * 0.1f) ,0.2f, transform.forward, out hit, 1.0f, CollisionLayerMask))
         {
             return hit.point;
         }

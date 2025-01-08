@@ -8202,7 +8202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1495846562742757660, guid: 6eb187fc5d1eae64b95ec92d122e60ea, type: 3}
       propertyPath: Dialogue.Array.data[2]
-      value: '"You can grab them by holding LMB."'
+      value: '"You can grab them by holding and dragging LMB."'
       objectReference: {fileID: 0}
     - target: {fileID: 365488131873465522, guid: 6eb187fc5d1eae64b95ec92d122e60ea, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8763,6 +8763,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1365394729}
     m_Modifications:
+    - target: {fileID: 1437465943811490304, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
+      propertyPath: dialogue.Array.data[1]
+      value: '"Now... You mind giving me back my chickens?"'
+      objectReference: {fileID: 0}
     - target: {fileID: 2198168616845788075, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.9444912
@@ -8777,11 +8781,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3527717126719903861, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.351496
+      value: -17.374
       objectReference: {fileID: 0}
     - target: {fileID: 3527717126719903861, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -28.99715
+      value: -28.901
       objectReference: {fileID: 0}
     - target: {fileID: 3527717126719903861, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8825,7 +8829,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6724293436446925521, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_Size.y
-      value: 0.59576356
+      value: 0.68877375
       objectReference: {fileID: 0}
     - target: {fileID: 6724293436446925521, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_Size.z
@@ -8837,7 +8841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6724293436446925521, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_Center.y
-      value: -0.02471131
+      value: 0.021793783
       objectReference: {fileID: 0}
     - target: {fileID: 6724293436446925521, guid: 72cf09fa09b069b40b5d71d77757e7d8, type: 3}
       propertyPath: m_Center.z
