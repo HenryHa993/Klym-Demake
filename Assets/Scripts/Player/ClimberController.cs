@@ -210,8 +210,7 @@ public class ClimberController : MonoBehaviour
     /*Grab pickup.*/
     public void GrabPickup(ClimberTrigger trigger)
     {
-        Pickup pickup = trigger.DetectedPickup.GetComponent<Pickup>();
-        StartCoroutine(pickup.Interaction());
+        trigger.GrabPickup();
         ResetGrab();
     }
 

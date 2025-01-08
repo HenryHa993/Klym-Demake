@@ -8,6 +8,8 @@ public class Pants : Pickup
     
     public override IEnumerator Interaction()
     {
+        yield return base.Interaction();
+
         Clothing _clothingComponent = _player.GetComponent<Clothing>();
         _clothingComponent.Wear(_clothingComponent.Bottom);
         yield return _fadeComponent.FadeOut();

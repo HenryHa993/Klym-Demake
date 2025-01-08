@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*All pickups are intended to interact with the player object,
- so we find and cache the player game object.*/
+ so we find and cache the player game object. It would be more appropriate
+ to call this an interactable because I use it for basic interactions.*/
 public class Pickup : MonoBehaviour
 {
     protected GameObject _player;

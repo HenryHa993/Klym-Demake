@@ -24,7 +24,7 @@ public class ClimberHand : MonoBehaviour
     public Sprite[] HandSprites;
     private HandState _currentState = HandState.Idle;
     
-    public Vector3 Offset;
+    public float Offset;
     public float TransitionSpeed = 15.0f;
 
     public SpriteRenderer SpriteRenderer;
@@ -54,6 +54,6 @@ public class ClimberHand : MonoBehaviour
 
     public void SetTargetPosition(Vector3 position)
     {
-        _targetPosition = position + Offset;
+        _targetPosition = position + (Offset * transform.right);
     }
 }

@@ -28,7 +28,7 @@ public class Subtitles : MonoBehaviour
         StartCoroutine(PlayDialogue(dialogue));
     }
 
-    private IEnumerator PlayDialogue(string[] dialogue)
+    public IEnumerator PlayDialogue(string[] dialogue)
     {
         SubtitlesGO.SetActive(true);
         InputSetActive(false);

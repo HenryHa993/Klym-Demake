@@ -67,4 +67,12 @@ public class ClimberTrigger : MonoBehaviour
 
         return Vector3.zero;
     }
+
+    public void GrabPickup()
+    {
+        Pickup pickup = DetectedPickup.GetComponent<Pickup>();
+        StartCoroutine(pickup.Interaction());
+        IsPickupDetected = false;
+        DetectedPickup = null;
+    }
 }
