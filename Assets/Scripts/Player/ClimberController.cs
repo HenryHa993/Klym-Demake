@@ -43,7 +43,7 @@ public class ClimberController : MonoBehaviour
     private Animator _animator;
 
     private Cinemachine3rdPersonFollow _thirdPersonFollow;
-    private IEnumerator CameraZoomCoroutine;
+    private IEnumerator _cameraZoomCoroutine;
     
     private Vector3 _targetPosition;
     
@@ -124,13 +124,13 @@ public class ClimberController : MonoBehaviour
             // Virtual camera settings
             _thirdPersonFollow.Damping = ClimbCameraDamping;
             
-            if (CameraZoomCoroutine != null)
+            if (_cameraZoomCoroutine != null)
             {
-                StopCoroutine(CameraZoomCoroutine);
+                StopCoroutine(_cameraZoomCoroutine);
             }
             
-            CameraZoomCoroutine = ZoomCameraOut(7);
-            StartCoroutine(CameraZoomCoroutine);
+            _cameraZoomCoroutine = ZoomCameraOut(7);
+            StartCoroutine(_cameraZoomCoroutine);
         }
         else
         {
@@ -148,13 +148,13 @@ public class ClimberController : MonoBehaviour
 
             _thirdPersonFollow.Damping = NavigationDamping;
 
-            if (CameraZoomCoroutine != null)
+            if (_cameraZoomCoroutine != null)
             {
-                StopCoroutine(CameraZoomCoroutine);
+                StopCoroutine(_cameraZoomCoroutine);
             }
             
-            CameraZoomCoroutine = ZoomCameraIn(5);
-            StartCoroutine(CameraZoomCoroutine);
+            _cameraZoomCoroutine = ZoomCameraIn(5);
+            StartCoroutine(_cameraZoomCoroutine);
         }
         
         IsClimbing = enabled;

@@ -36,10 +36,8 @@ public class Subtitles : MonoBehaviour
         foreach(string line in dialogue)
         {
             Text.text = line;
-            for (float timer = DialogueDuration; timer > 0f; timer -= Time.deltaTime)
-            {
-                yield return null;
-            }
+
+            yield return new WaitForSeconds(DialogueDuration);
         }
         
         SubtitlesGO.SetActive(false);
